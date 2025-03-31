@@ -1,0 +1,8 @@
+Flask
+opencv-python
+numpy
+joblib
+tensorflow
+mediapipe
+werkzeug
+
