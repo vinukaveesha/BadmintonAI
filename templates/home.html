@@ -51,8 +51,10 @@
             <h3 class="mb-4">Upload Badminton Video</h3>
             <form id="uploadForm" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="videoFile" class="form-label">Select video file (MP4, AVI, etc.)</label>
-                    <input class="form-control" type="file" id="videoFile" name="file" accept="video/*" required>
+                    <label for="videoFile" class="form-label">Select video file (MP4, AVI, MOV etc.)</label>
+                    <input class="form-control" type="file" id="videoFile" name="file" 
+                    accept="video/mp4,video/quicktime,video/x-msvideo,video/*,.mov,.MOV"
+                    required>
                 </div>
                 <button type="submit" class="btn btn-primary">Analyze Shot</button>
             </form>
