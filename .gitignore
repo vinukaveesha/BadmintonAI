@@ -1,4 +1,8 @@
 badminton_shot_classification_model.h5
 epoch_10_valacc_1.00.keras
+epoch_15_valacc_1.00.keras
 pose_regressor.pkl
 pose_scaler.pkl
+hyper-paramter-tunning.png
+pose_model.keras
+pose_model

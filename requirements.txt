@@ -1,8 +1,10 @@
 Flask
+tqdm
 opencv-python
 numpy
 joblib
 tensorflow
 mediapipe
 werkzeug
+scikit-learn
 
