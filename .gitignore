@@ -6,3 +6,6 @@ pose_scaler.pkl
 hyper-paramter-tunning.png
 pose_model.keras
 pose_model
+live_shot_classification.py
+live-shot-classification.ipynb
+badminton-env
