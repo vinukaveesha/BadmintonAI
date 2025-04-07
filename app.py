@@ -137,12 +137,19 @@ def logout():
     flash("You have been logged out.", "info")
     return redirect(url_for("login"))
 
+# Live camera route
+@app.route("/live")
+@login_required
+def live_cam():
+    return render_template("live.html")
+
 # Main application route
 @app.route("/")
 @login_required
 def home():
-    return render_template("home.html", user=session.get("user"))
-
+    return render_template("home.html", 
+                         user=session.get("user"),
+                         show_live_option=True)
 
 if __name__ == "__main__":
     app.run(debug=True)
