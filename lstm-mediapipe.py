@@ -2,12 +2,11 @@ import cv2
 import numpy as np
 import mediapipe as mp
 import tensorflow as tf
+import os
 
-# Constants from training
 SEQUENCE_LENGTH = 20
 FEATURE_DIM = 195  # 33*4 + 21*3
 
-# Load your trained model
 model = tf.keras.models.load_model('models/badminton_shot_model.keras')
 
 # Initialize MediaPipe solutions
@@ -16,7 +15,6 @@ mp_hands = mp.solutions.hands
 pose = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5)
 hands = mp_hands.Hands(static_image_mode=False, max_num_hands=2)
 
-# Load your class labels (ensure same order as training)
 LABELS = ['backhand_drive', 'backhand_net_shot', 'forehand_clear', 'forehand_drive', 'forehand_lift', 'forehand_net_shot']
 
 print(LABELS)
