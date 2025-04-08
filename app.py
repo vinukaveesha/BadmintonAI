@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for, s
 from werkzeug.utils import secure_filename
 import tensorflow as tf
 from functools import wraps
+import ffmpeg
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -57,17 +58,24 @@ def extract_sequence(video_path):
                 frame = frame.astype(np.float32) / 255.0
                 frames.append(frame)
             else:
-                # Pad with black frame if missing
                 frames.append(np.zeros((*IMG_SIZE, 3), dtype=np.float32))
     finally:
         cap.release()
 
     return np.array(frames)
 
+def convert_to_mov(input_path, output_path):
+    """Convert video to MOV format using ffmpeg"""
+    (
+        ffmpeg
+        .input(input_path)
+        .output(output_path, vcodec='h264', acodec='aac', strict='experimental')
+        .run(overwrite_output=True)
+    )
 
 def preprocess_sequence(frames):
     """Process frame sequence for model input"""
-    # Ensure exactly SEQUENCE_LENGTH frames
+    
     while len(frames) < SEQUENCE_LENGTH:
         frames.append(np.zeros((*IMG_SIZE, 3), dtype=np.float32))
     
@@ -83,31 +91,37 @@ def predict_shot():
     if file.filename == "":
         return jsonify({"error": "No selected file"})
 
-    # Save uploaded video
     filename = secure_filename(file.filename)
-    video_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-    file.save(video_path)
+    temp_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+    mov_path = os.path.join(app.config["UPLOAD_FOLDER"], "converted.mov")
+    file.save(temp_path)
 
     try:
-        # Extract and preprocess sequence
+        # Convert to MOV if needed
+        if not filename.lower().endswith('.mov'):
+            convert_to_mov(temp_path, mov_path)
+            video_path = mov_path
+        else:
+            video_path = temp_path
+
+        # Process video
         frames = extract_sequence(video_path)
         sequence = preprocess_sequence(frames)
         
-        # Make prediction
         pred = model.predict(sequence, verbose=0)[0]
         class_index = np.argmax(pred)
         confidence = float(round(pred[class_index] * 100, 2))
         class_name = class_labels[class_index]
+        
     except Exception as e:
         return jsonify({"error": f"Prediction failed: {str(e)}"})
     finally:
-        # Clean up video file
-        try:
-            os.remove(video_path)
-        except:
-            pass
-
-    print(f"Predicted class: {class_name}, Confidence: {confidence}%")
+        for p in [temp_path, mov_path]:
+            try:
+                if os.path.exists(p):
+                    os.remove(p)
+            except:
+                pass
 
     return jsonify({
         "prediction": class_name,
