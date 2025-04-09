@@ -15,7 +15,7 @@ mp_hands = mp.solutions.hands
 pose = mp_pose.Pose(static_image_mode=False, min_detection_confidence=0.5)
 hands = mp_hands.Hands(static_image_mode=False, max_num_hands=2)
 
-LABELS = ['backhand_drive', 'backhand_net_shot', 'forehand_clear', 'forehand_drive', 'forehand_lift', 'forehand_net_shot']
+LABELS = ['backhand_drive', 'forehand_clear', 'forehand_drive', 'forehand_lift', 'forehand_net_shot']
 
 print(LABELS)
 
