@@ -7,7 +7,7 @@ import os
 SEQUENCE_LENGTH = 20
 FEATURE_DIM = 195  # 33*4 + 21*3
 
-model = tf.keras.models.load_model('models/badminton_shot_model.keras')
+model = tf.keras.models.load_model('models/badminton_shot_model_large_dataset.keras')
 
 # Initialize MediaPipe solutions
 mp_pose = mp.solutions.pose
@@ -27,8 +27,8 @@ sequence = []
 predicted_class = 'Waiting...'
 confidence = 0
 
-MEAN = np.load('key_points/mean.npy')  
-STD = np.load('key_points/std.npy')
+MEAN = np.load('large-dataset-keypoints/mean.npy')  
+STD = np.load('large-dataset-keypoints/std.npy')
 
 def extract_keypoints(results_pose, results_hands):
     pose_keypoints = np.zeros(33 * 4)  # 33 landmarks with x,y,z,visibility
