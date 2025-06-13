@@ -1,6 +1,4 @@
-# BadmintonAI: Real-time Shot Classification System
-
-![Badminton Shot Classification Demo](hyper-paramter-tunning.png)
+# BadmintonAI: Hybrid Deep Learning for Shot Classification
 
 A hybrid deep learning system that classifies badminton shots from video sequences using CNN-LSTM architecture with real-time pose estimation capabilities.
 
@@ -9,7 +7,7 @@ A hybrid deep learning system that classifies badminton shots from video sequenc
 - **Hybrid CNN-LSTM Model**: Processes temporal sequences of video frames for accurate shot classification
 - **Real-time Pose Estimation**: MediaPipe-based shot recognition from live camera feed
 - **Web Application**: Flask-based interface with user authentication
-- **High Accuracy**: 100% validation accuracy on 5 shot types (clears, drives, lifts, net shots)
+- **High Accuracy**: 96% test accuracy on 5 shot types (clears, drives, lifts, net shots)
 - **Video Processing**: Frame extraction, normalization, and sequence generation pipeline
 
 ## Tech Stack
